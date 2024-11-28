@@ -4,7 +4,7 @@ import { toMerged } from 'es-toolkit'
 
 const defaultTheme: Theme = {
   base: {
-    '--md-primary-color': `#000000`,
+    '--md-primary-color': `hsl(0, 100%, 50%)`,
     'text-align': `left`,
     'line-height': `1.75`,
   },
@@ -82,7 +82,10 @@ const defaultTheme: Theme = {
       'padding': `1em`,
       'border-radius': `8px`,
       'color': `rgba(0,0,0,0.5)`,
-      'background': `var(--blockquote-background)`,
+      'background-color': `var(--blockquote-background)`,
+      'background-image': `url('https://pic.616pic.com/ys_img/00/07/88/1wy69irIYi.jpg')`,
+      'background-size': `24px`,
+      'background-repeat': `no-repeat`,
       'margin': `2em 8px`,
     },
 
@@ -94,6 +97,15 @@ const defaultTheme: Theme = {
       'color': `var(--el-text-color-regular)`,
     },
 
+    blockquote_name: {
+      color: `#478be6`,
+    },
+    blockquote_name_others: {
+      color: `#3f3f3f`,
+    },
+    blockquote_content: {
+      color: `hsl(0, 100%, 50%)`,
+    },
     blockquote_note: {
     },
 

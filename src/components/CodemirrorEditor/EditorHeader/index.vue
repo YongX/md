@@ -78,6 +78,36 @@ const formatItems = [
     kbd: [altSign, shiftSign, `F`],
     emitArgs: [`formatContent`],
   },
+  {
+    label: `一级标题`,
+    kbd: [ctrlSign, `1`],
+    emitArgs: [`addFormat`, `${ctrlKey}-1`],
+  },
+  {
+    label: `二级标题`,
+    kbd: [ctrlSign, `2`],
+    emitArgs: [`addFormat`, `${ctrlKey}-2`],
+  },
+  {
+    label: `三级标题`,
+    kbd: [ctrlSign, `3`],
+    emitArgs: [`addFormat`, `${ctrlKey}-3`],
+  },
+  {
+    label: `四级标题`,
+    kbd: [ctrlSign, `4`],
+    emitArgs: [`addFormat`, `${ctrlKey}-4`],
+  },
+  {
+    label: `五级标题`,
+    kbd: [ctrlSign, `5`],
+    emitArgs: [`addFormat`, `${ctrlKey}-5`],
+  },
+  {
+    label: `六级标题`,
+    kbd: [ctrlSign, `6`],
+    emitArgs: [`addFormat`, `${ctrlKey}-6`],
+  },
 ] as const
 
 const store = useStore()

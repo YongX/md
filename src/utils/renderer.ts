@@ -159,7 +159,35 @@ export function initRenderer(opts: IOpts) {
 
     blockquote({ tokens }: Tokens.Blockquote): string {
       let text = this.parser.parse(tokens)
-      text = text.replace(/<p .*?>/g, `<p ${styles(`blockquote_p`)}>`)
+
+      const regex = /<p ([^>]*)>([^<>：:]+)[：:]([^<]*)<\/p>/g
+
+      text = text.replace(
+        regex,
+        (_, _attrs, name, content) => {
+          const trimmedName = name.trim()
+          const isSpecialName = [`吴小宝`, `戴帽子`, `广告新生`].includes(trimmedName)
+          const nameClass = isSpecialName ? `blockquote_name` : `blockquote_name_others`
+          const contentSpan = isSpecialName
+            ? `<span ${styles(`blockquote_content`)}>${content}</span>`
+            : `<span>${content}</span>`
+
+          return `<p ${styles(`blockquote_p`)}><span ${styles(nameClass)}>${trimmedName}</span>：${contentSpan}</p>`
+        },
+      )
+
+      text = text.replace(
+        /<p ([^>]*)>([\s\S]*?)<\/p>/g,
+        (_, _attrs, content) => {
+          console.log(`content`, content)
+          if (!content.trim())
+            return `` // 忽略空段落
+          return `<p ${styles(`blockquote_p`)}>${content}</p><br/>`
+        },
+      )
+
+      text = text.replace(/<br\/>$/, ``)
+
       return styledContent(`blockquote`, text)
     },
 

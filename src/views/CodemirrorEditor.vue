@@ -82,7 +82,7 @@ function leftAndRightScroll() {
     }
 
     const percentage
-          = source.scrollTop / (source.scrollHeight - source.offsetHeight)
+      = source.scrollTop / (source.scrollHeight - source.offsetHeight)
     const height = percentage * (target.scrollHeight - target.offsetHeight)
 
     target.scrollTo(0, height)
@@ -191,6 +191,61 @@ watch(isDark, () => {
   toRaw(editor.value)?.setOption?.(`theme`, theme)
 })
 
+function toggleHeading(editor: any, level: number) {
+  const cursor = editor.getCursor()
+  const selection = editor.getSelection()
+  const line = editor.getLine(cursor.line)
+
+  // 创建对应数量的 # 符号
+  const hashes = `#`.repeat(level)
+
+  if (selection) {
+    // 处理选中的文本
+    const lines = selection.split(`\n`)
+    const processedLines = lines.map((line) => {
+      // 跳过空行
+      if (!line.trim()) {
+        return line
+      }
+
+      const lineHashes = line.match(/^#{1,6}\s/)
+      if (lineHashes && lineHashes[0].trim().length === level) {
+        // 如果已经是对应级别的标题，则移除标题标记
+        return line.replace(/^#{1,6}\s/, ``)
+      }
+      else {
+        // 如果不是标题或者是其他级别的标题，则设置为目标级别
+        return `${hashes} ${line.replace(/^#{1,6}\s/, ``)}`
+      }
+    })
+    editor.replaceSelection(processedLines.join(`\n`))
+  }
+  else {
+    // 处理当前行
+    // 如果是空行，不做处理
+    if (!line.trim()) {
+      return
+    }
+
+    const currentHashes = line.match(/^#{1,6}\s/)
+    if (currentHashes && currentHashes[0].trim().length === level) {
+      // 如果已经是对应级别的标题，则移除标题标记
+      editor.replaceRange(
+        line.replace(/^#{1,6}\s/, ``),
+        { line: cursor.line, ch: 0 },
+        { line: cursor.line, ch: line.length },
+      )
+    }
+    else {
+      // 如果不是标题或者是其他级别的标题，则设置为目标级别
+      editor.replaceRange(
+        `${hashes} ${line.replace(/^#{1,6}\s/, ``)}`,
+        { line: cursor.line, ch: 0 },
+        { line: cursor.line, ch: line.length },
+      )
+    }
+  }
+}
 // 初始化编辑器
 function initEditor() {
   const editorDom = document.querySelector<HTMLTextAreaElement>(`#editor`)!
@@ -232,9 +287,65 @@ function initEditor() {
         editor.replaceSelection(`\`${selected}\``)
       },
       // 预备弃用
-      [`${ctrlKey}-L`]: function code(editor) {
+      [`${ctrlKey}-.`]: function quote(editor) {
         const selected = editor.getSelection()
-        editor.replaceSelection(`\`${selected}\``)
+        if (!selected) {
+          // 获取当前行信息
+          const currentLine = editor.getCursor().line
+          const lineContent = editor.getLine(currentLine)
+
+          // 判断当前行是否已有引用符号
+          if (lineContent.trimStart().startsWith(`> `)) {
+            // 如果有引用符号，移除它
+            const lineWithoutQuote = lineContent.replace(/^\s*> /, ``)
+            editor.replaceRange(
+              lineWithoutQuote,
+              { line: currentLine, ch: 0 },
+              { line: currentLine, ch: lineContent.length },
+            )
+          }
+          else {
+            // 如果没有引用符号，添加它
+            // 保持原有缩进
+            const indentation = lineContent.match(/^\s*/)[0]
+            const newLine = `${indentation}> ${lineContent.trimStart()}`
+            editor.replaceRange(
+              newLine,
+              { line: currentLine, ch: 0 },
+              { line: currentLine, ch: lineContent.length },
+            )
+          }
+          return
+        }
+
+        // 处理选中的文本
+        const lines = selected.split(`\n`)
+        // 为每一行添加或移除引用符号
+        const quotedText = lines.map((line) => {
+          if (line.trimStart().startsWith(`> `))
+            return line.slice(2)
+          return `> ${line}`
+        }).join(`\n`)
+
+        editor.replaceSelection(quotedText)
+      },
+      [`${ctrlKey}-1`]: function h1(editor) {
+        toggleHeading(editor, 1)
+      },
+      [`${ctrlKey}-2`]: function h2(editor) {
+        toggleHeading(editor, 2)
+      },
+      [`${ctrlKey}-3`]: function h3(editor) {
+        toggleHeading(editor, 3)
+      },
+      [`${ctrlKey}-4`]: function h4(editor) {
+        toggleHeading(editor, 4)
+      },
+      [`${ctrlKey}-5`]: function h5(editor) {
+        toggleHeading(editor, 5)
+      },
+      [`${ctrlKey}-6`]: function h6(editor) {
+        toggleHeading(editor, 6)
       },
     },
   })
@@ -295,7 +406,7 @@ function mdLocalToRemote() {
           let [, , matchStr] = item
           matchStr = matchStr.replace(/^.\//, ``) // 处理 ./img/ 为 img/ 统一相对路径风格
           const { file }
-                = list.find(f => f.path === `${root}${matchStr}`) || {}
+            = list.find(f => f.path === `${root}${matchStr}`) || {}
           uploadImage(file!, (url) => {
             resolve({ matchStr, url })
           })
@@ -384,29 +495,17 @@ onMounted(() => {
 
 <template>
   <div ref="container" class="container flex flex-col">
-    <EditorHeader
-      @add-format="addFormat"
-      @format-content="formatContent"
-      @start-copy="startCopy"
-      @end-copy="endCopy"
-    />
+    <EditorHeader @add-format="addFormat" @format-content="formatContent" @start-copy="startCopy" @end-copy="endCopy" />
     <main class="container-main flex-1">
       <el-row class="container-main-section h-full border-1">
         <ElCol
-          ref="codeMirrorWrapper"
-          :span="isShowCssEditor ? 8 : 12"
-          class="codeMirror-wrapper border-r-1"
-          :class="{
+          ref="codeMirrorWrapper" :span="isShowCssEditor ? 8 : 12" class="codeMirror-wrapper border-r-1" :class="{
             'order-1': !store.isEditOnLeft,
           }"
         >
           <ContextMenu>
             <ContextMenuTrigger>
-              <textarea
-                id="editor"
-                type="textarea"
-                placeholder="Your markdown text here."
-              />
+              <textarea id="editor" type="textarea" placeholder="Your markdown text here." />
             </ContextMenuTrigger>
             <ContextMenuContent class="w-64">
               <ContextMenuItem inset @click="toggleShowUploadImgDialog()">
@@ -435,12 +534,7 @@ onMounted(() => {
             </ContextMenuContent>
           </ContextMenu>
         </ElCol>
-        <ElCol
-          id="preview"
-          ref="preview"
-          :span="isShowCssEditor ? 8 : 12"
-          class="preview-wrapper p-5"
-        >
+        <ElCol id="preview" ref="preview" :span="isShowCssEditor ? 8 : 12" class="preview-wrapper p-5">
           <div id="output-wrapper" :class="{ output_night: !backLight }">
             <div class="preview border shadow-xl">
               <section id="output" v-html="output" />
@@ -457,9 +551,7 @@ onMounted(() => {
       </el-row>
     </main>
 
-    <UploadImgDialog
-      @upload-image="uploadImage"
-    />
+    <UploadImgDialog @upload-image="uploadImage" />
 
     <InsertFormDialog />
 
