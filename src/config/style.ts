@@ -48,59 +48,9 @@ export const fontSizeOptions: IConfigOption[] = [
 
 export const colorOptions: IConfigOption[] = [
   {
-    label: `经典蓝`,
-    value: `#0F4C81`,
-    desc: `稳重冷静`,
-  },
-  {
-    label: `翡翠绿`,
-    value: `#009874`,
-    desc: `自然平衡`,
-  },
-  {
-    label: `活力橘`,
-    value: `#FA5151`,
-    desc: `热情活力`,
-  },
-  {
-    label: `柠檬黄`,
-    value: `#FECE00`,
-    desc: `明亮温暖`,
-  },
-  {
-    label: `薰衣紫`,
-    value: `#92617E`,
-    desc: `优雅神秘`,
-  },
-  {
-    label: `天空蓝`,
-    value: `#55C9EA`,
-    desc: `清爽自由`,
-  },
-  {
-    label: `玫瑰金`,
-    value: `#B76E79`,
-    desc: `奢华现代`,
-  },
-  {
-    label: `橄榄绿`,
-    value: `#556B2F`,
-    desc: `沉稳自然`,
-  },
-  {
-    label: `石墨黑`,
-    value: `#333333`,
-    desc: `内敛极简`,
-  },
-  {
-    label: `雾烟灰`,
-    value: `#A9A9A9`,
-    desc: `柔和低调`,
-  },
-  {
-    label: `樱花粉`,
-    value: `#FFB7C5`,
-    desc: `浪漫甜美`,
+    label: `经典红`,
+    value: `hsl(0, 72.2%, 50.6%)`,
+    desc: `广告新生红`,
   },
 ]
 

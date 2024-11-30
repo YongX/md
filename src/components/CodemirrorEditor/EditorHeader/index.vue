@@ -159,6 +159,8 @@ function copy() {
 
       clipboardDiv.focus()
 
+      console.log(clipboardDiv.innerHTML)
+
       // edge case: 由于 svg 无法复制， 在前面插入一个空节点
       const p = document.createElement(`p`)
       p.style.fontSize = `0` // 设置字体大小为 0

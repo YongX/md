@@ -95,6 +95,8 @@ const macCodeSvg = `
   </svg>
 `.trim()
 
+const numberItems = [`①`, `②`, `③`, `④`, `⑤`, `⑥`, `⑦`, `⑧`, `⑨`, `⑩`]
+
 export function initRenderer(opts: IOpts) {
   const footnotes: [number, string, string][] = []
   let footnoteIndex: number = 0
@@ -216,9 +218,10 @@ export function initRenderer(opts: IOpts) {
     },
 
     listitem(item: Tokens.ListItem): string {
-      const prefix = isOrdered ? `${listIndex + 1}. ` : `• `
+      const prefix = isOrdered ? `<span style="color: var(--md-primary-color); font-weight: 400; font-size: 20px; margin-right: 4px">${numberItems[listIndex]}</span> ` : `<span style="color: var(--md-primary-color); font-size: 20px; font-weight: 1000; margin-right: 4px; margin-bottom: 3px; display: inline-block">• </span>`
       const content = item.tokens.map(t => (this[t.type as keyof Renderer] as <T>(token: T) => string)(t)).join(``)
-      return styledContent(`listitem`, `${prefix}${content}`, `li`)
+      // 这里使用 section 标签，是因为 li 标签的样式在微信中会被添加一层 p 标签
+      return styledContent(`listitem`, `${prefix}${content}`, `section`)
     },
 
     list({ ordered, items }: Tokens.List): string {
@@ -229,7 +232,7 @@ export function initRenderer(opts: IOpts) {
         const item = items[i]
         listItems.push(this.listitem(item))
       }
-      const label = ordered ? `ol` : `ul`
+      const label = ordered ? `section` : `ul`
       return styledContent(label, listItems.join(``))
     },
 

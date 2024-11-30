@@ -11,26 +11,27 @@ const defaultTheme: Theme = {
   block: {
     // 一级标题
     h1: {
-      'display': `table`,
-      'padding': `0 1em`,
-      'border-bottom': `2px solid var(--md-primary-color)`,
-      'margin': `2em auto 1em`,
-      'color': `var(--el-text-color-regular)`,
-      'font-size': `1.2em`,
+      // 'display': `table`,
+      // 'padding': `0 1em`,
+      // 'border-bottom': `2px solid var(--md-primary-color)`,
+      'margin': `0 auto 0`,
+      'color': `var(--md-primary-color)`,
+      'font-size': `3em`,
       'font-weight': `bold`,
-      'text-align': `center`,
+      'text-align': `left`,
+      'font-style': `italic`,
     },
 
     // 二级标题
     h2: {
-      'display': `table`,
-      'padding': `0 0.2em`,
-      'margin': `4em auto 2em`,
-      'color': `#fff`,
-      'background': `var(--md-primary-color)`,
+      // 'display': `table`,
+      // 'padding': `0 0.2em`,
+      'margin': `-14px auto 2em`,
+      'color': `var(--md-primary-color)`,
+      // 'background': `var(--md-primary-color)`,
       'font-size': `1.2em`,
       'font-weight': `bold`,
-      'text-align': `center`,
+      'text-align': `left`,
     },
 
     // 三级标题
@@ -79,13 +80,14 @@ const defaultTheme: Theme = {
     blockquote: {
       'font-style': `normal`,
       'border-left': `none`,
-      'padding': `1em`,
+      'padding': `1.4em`,
       'border-radius': `8px`,
       'color': `rgba(0,0,0,0.5)`,
       'background-color': `var(--blockquote-background)`,
-      'background-image': `url('https://pic.616pic.com/ys_img/00/07/88/1wy69irIYi.jpg')`,
-      'background-size': `24px`,
+      'background-image': `url('https://static.wuxiaobao.cn/image/adren/quote.png')`,
+      'background-size': `18px`,
       'background-repeat': `no-repeat`,
+      'background-position': `6px 6px`,
       'margin': `2em 8px`,
     },
 
@@ -98,13 +100,16 @@ const defaultTheme: Theme = {
     },
 
     blockquote_name: {
-      color: `#478be6`,
+      'color': `#3f3f3f`,
+      'font-weight': `bold`,
     },
     blockquote_name_others: {
-      color: `#3f3f3f`,
+      'color': `#3f3f3f`,
+      'font-weight': `bold`,
     },
     blockquote_content: {
-      color: `hsl(0, 100%, 50%)`,
+      'color': `var(--md-primary-color)`,
+      'font-weight': `bold`,
     },
     blockquote_note: {
     },
@@ -183,15 +188,15 @@ const defaultTheme: Theme = {
 
     // 图片
     image: {
-      'display': `block`,
-      'width': `100% !important`,
-      'margin': `0.1em auto 0.5em`,
-      'border-radius': `4px`,
+      display: `block`,
+      width: `100% !important`,
+      margin: `0.1em auto 0em`,
+      // 'border-radius': `4px`,
     },
 
     // 有序列表
     ol: {
-      'padding-left': `1em`,
+      'padding-left': `0em`,
       'margin-left': `0`,
       'color': `var(--el-text-color-regular)`,
     },
@@ -199,7 +204,7 @@ const defaultTheme: Theme = {
     // 无序列表
     ul: {
       'list-style': `circle`,
-      'padding-left': `1em`,
+      'padding-left': `0em`,
       'margin-left': `0`,
       'color': `var(--el-text-color-regular)`,
     },
@@ -227,8 +232,9 @@ const defaultTheme: Theme = {
   },
   inline: {
     listitem: {
-      'text-indent': `-1em`,
-      'display': `block`,
+      // 'text-indent': `-1em`,
+      'display': `flex`,
+      'align-items': `center`,
       'margin': `0.2em 8px`,
       'color': `var(--el-text-color-regular)`,
     },
@@ -289,9 +295,13 @@ const defaultTheme: Theme = {
     },
 
     figcaption: {
-      'text-align': `center`,
-      'color': `#888`,
-      'font-size': `0.8em`,
+      'text-align': `left`,
+      'color': `rgba(0,0,0,0.6)`,
+      'font-size': `1em`,
+      'line-height': `1.4`,
+      'padding': `0.8em 1em`,
+      'border-left': `5px solid var(--md-primary-color)`,
+      'background': `rgba(0,0,0,0.05)`,
     },
   },
 }
