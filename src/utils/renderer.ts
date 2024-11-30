@@ -218,10 +218,10 @@ export function initRenderer(opts: IOpts) {
     },
 
     listitem(item: Tokens.ListItem): string {
-      const prefix = isOrdered ? `<span style="color: var(--md-primary-color); font-weight: 400; font-size: 20px; margin-right: 4px">${numberItems[listIndex]}</span> ` : `<span style="color: var(--md-primary-color); font-size: 20px; font-weight: 1000; margin-right: 4px; margin-bottom: 3px; display: inline-block">• </span>`
+      const prefix = isOrdered ? `<span style="color: var(--md-primary-color); font-weight: 700; font-size: 20px; margin-right: 4px; margin-top: -5px; display: inline-block">${numberItems[listIndex]}</span> ` : `<span style="color: var(--md-primary-color); font-size: 20px; font-weight: 1000; margin-right: 4px; margin-top: -5px; display: inline-block">• </span>`
       const content = item.tokens.map(t => (this[t.type as keyof Renderer] as <T>(token: T) => string)(t)).join(``)
       // 这里使用 section 标签，是因为 li 标签的样式在微信中会被添加一层 p 标签
-      return styledContent(`listitem`, `${prefix}${content}`, `section`)
+      return styledContent(`listitem`, `${prefix}<span>${content}</span>`, `section`)
     },
 
     list({ ordered, items }: Tokens.List): string {

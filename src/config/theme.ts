@@ -15,7 +15,7 @@ const defaultTheme: Theme = {
       // 'padding': `0 1em`,
       // 'border-bottom': `2px solid var(--md-primary-color)`,
       'margin': `0 auto 0`,
-      'color': `var(--md-primary-color)`,
+      'color': `hsl(0, 100%, 50%)`,
       'font-size': `3em`,
       'font-weight': `bold`,
       'text-align': `left`,
@@ -24,11 +24,8 @@ const defaultTheme: Theme = {
 
     // 二级标题
     h2: {
-      // 'display': `table`,
-      // 'padding': `0 0.2em`,
       'margin': `-14px auto 2em`,
-      'color': `var(--md-primary-color)`,
-      // 'background': `var(--md-primary-color)`,
+      'color': `hsl(0, 100%, 50%)`,
       'font-size': `1.2em`,
       'font-weight': `bold`,
       'text-align': `left`,
@@ -233,10 +230,10 @@ const defaultTheme: Theme = {
   inline: {
     listitem: {
       // 'text-indent': `-1em`,
-      'display': `flex`,
-      'align-items': `center`,
-      'margin': `0.2em 8px`,
-      'color': `var(--el-text-color-regular)`,
+      display: `flex`,
+      // 'align-items': `center`,
+      margin: `0.2em 8px`,
+      color: `var(--el-text-color-regular)`,
     },
 
     codespan: {
@@ -267,6 +264,7 @@ const defaultTheme: Theme = {
       'color': `var(--md-primary-color)`,
       'font-weight': `bold`,
       'font-size': `inherit`,
+      'box-shadow': `inset 0 -8px 0 rgba(255,0,0,0.1)`,
     },
 
     table: {

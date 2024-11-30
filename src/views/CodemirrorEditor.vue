@@ -286,7 +286,6 @@ function initEditor() {
         const selected = editor.getSelection()
         editor.replaceSelection(`\`${selected}\``)
       },
-      // 预备弃用
       [`${ctrlKey}-.`]: function quote(editor) {
         const selected = editor.getSelection()
         if (!selected) {
@@ -346,6 +345,100 @@ function initEditor() {
       },
       [`${ctrlKey}-6`]: function h6(editor) {
         toggleHeading(editor, 6)
+      },
+      [`${ctrlKey}-U`]: function unorderedList(editor) {
+        const selected = editor.getSelection()
+        if (!selected) {
+          // 获取当前行信息
+          const currentLine = editor.getCursor().line
+          const lineContent = editor.getLine(currentLine)
+
+          // 判断当前行是否已有列表符号
+          if (lineContent.trimStart().startsWith(`- `)) {
+            // 如果有列表符号，移除它
+            const lineWithoutList = lineContent.replace(/^\s*- /, ``)
+            editor.replaceRange(
+              lineWithoutList,
+              { line: currentLine, ch: 0 },
+              { line: currentLine, ch: lineContent.length },
+            )
+          }
+          else {
+            // 如果没有列表符号，添加它
+            // 保持原有缩进
+            const indentation = lineContent.match(/^\s*/)[0]
+            const newLine = `${indentation}- ${lineContent.trimStart()}`
+            editor.replaceRange(
+              newLine,
+              { line: currentLine, ch: 0 },
+              { line: currentLine, ch: lineContent.length },
+            )
+          }
+          return
+        }
+
+        // 处理选中的文本
+        const lines = selected.split(`\n`)
+        // 为每一行添加或移除列表符号
+        const listedText = lines.map((line) => {
+          if (line.trimStart().startsWith(`- `))
+            return line.replace(/^\s*- /, ``)
+          return `- ${line}`
+        }).join(`\n`)
+
+        editor.replaceSelection(listedText)
+      },
+      [`${ctrlKey}-O`]: function orderedList(editor) {
+        const selected = editor.getSelection()
+        if (!selected) {
+          // 获取当前行信息
+          const currentLine = editor.getCursor().line
+          const lineContent = editor.getLine(currentLine)
+
+          // 判断当前行是否已有序号
+          if (lineContent.trimStart().match(/^\d+\.\s/)) {
+            // 如果有序号，移除它
+            const lineWithoutNumber = lineContent.replace(/^\s*\d+\.\s/, ``)
+            editor.replaceRange(
+              lineWithoutNumber,
+              { line: currentLine, ch: 0 },
+              { line: currentLine, ch: lineContent.length },
+            )
+          }
+          else {
+            // 如果没有序号，添加它
+            // 保持原有缩进
+            const indentation = lineContent.match(/^\s*/)[0]
+            const newLine = `${indentation}1. ${lineContent.trimStart()}`
+            editor.replaceRange(
+              newLine,
+              { line: currentLine, ch: 0 },
+              { line: currentLine, ch: lineContent.length },
+            )
+          }
+          return
+        }
+
+        // 处理选中的文本
+        const lines = selected.split(`\n`)
+        // 检查是否所有行都已经是有序列表
+        const allOrdered = lines.every(line => line.trimStart().match(/^\d+\.\s/))
+
+        // 为每一行添加或移除序号
+        const listedText = lines.map((line, index) => {
+          if (allOrdered) {
+            // 如果所有行都有序号，则移除序号
+            return line.replace(/^\s*\d+\.\s/, ``)
+          }
+          else {
+            // 如果不是有序列表，则添加序号
+            // 移除已有的序号（如果有的话）后再添加新序号
+            const cleanLine = line.replace(/^\s*\d+\.\s/, ``)
+            return `${index + 1}. ${cleanLine}`
+          }
+        }).join(`\n`)
+
+        editor.replaceSelection(listedText)
       },
     },
   })
