@@ -237,7 +237,7 @@ export function initRenderer(opts: IOpts) {
     },
 
     image({ href, title, text }: Tokens.Image): string {
-      const subText = styledContent(`figcaption`, transform(opts.legend!, text, title))
+      const subText = text || title ? styledContent(`figcaption`, transform(opts.legend!, text, title)) : ``
       const figureStyles = styles(`figure`)
       const imgStyles = styles(`image`)
       return `<figure ${figureStyles}><img ${imgStyles} src="${href}" title="${title}" alt="${text}"/>${subText}</figure>`

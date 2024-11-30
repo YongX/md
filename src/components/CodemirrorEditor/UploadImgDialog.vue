@@ -13,11 +13,11 @@ const emit = defineEmits([`uploadImage`])
 
 const displayStore = useDisplayStore()
 
-const formGitHub = ref({
-  repo: ``,
-  branch: ``,
-  accessToken: ``,
-})
+// const formGitHub = ref({
+//   repo: ``,
+//   branch: ``,
+//   accessToken: ``,
+// })
 
 // const formGitee = ref({
 //   repo: ``,
@@ -35,32 +35,32 @@ const formAliOSS = ref({
   useSSL: true,
 })
 
-const formTxCOS = ref({
-  secretId: ``,
-  secretKey: ``,
-  bucket: ``,
-  region: ``,
-  path: ``,
-  cdnHost: ``,
-})
+// const formTxCOS = ref({
+//   secretId: ``,
+//   secretKey: ``,
+//   bucket: ``,
+//   region: ``,
+//   path: ``,
+//   cdnHost: ``,
+// })
 
-const formQiniu = ref({
-  accessKey: ``,
-  secretKey: ``,
-  bucket: ``,
-  domain: ``,
-  region: ``,
-  path: ``,
-})
+// const formQiniu = ref({
+//   accessKey: ``,
+//   secretKey: ``,
+//   bucket: ``,
+//   domain: ``,
+//   region: ``,
+//   path: ``,
+// })
 
-const minioOSS = ref({
-  endpoint: ``,
-  port: ``,
-  useSSL: true,
-  bucket: ``,
-  accessKey: ``,
-  secretKey: ``,
-})
+// const minioOSS = ref({
+//   endpoint: ``,
+//   port: ``,
+//   useSSL: true,
+//   bucket: ``,
+//   accessKey: ``,
+//   secretKey: ``,
+// })
 
 const formCustom = ref<{ code: string, editor: CodeMirror.EditorFromTextArea | null }>({
   code:
@@ -89,30 +89,30 @@ const options = [
   //   value: `gitee`,
   //   label: `Gitee`,
   // },
-  {
-    value: `github`,
-    label: `GitHub`,
-  },
+  // {
+  //   value: `github`,
+  //   label: `GitHub`,
+  // },
   {
     value: `aliOSS`,
     label: `阿里云`,
   },
-  {
-    value: `txCOS`,
-    label: `腾讯云`,
-  },
-  {
-    value: `qiniu`,
-    label: `七牛云`,
-  },
-  {
-    value: `minio`,
-    label: `MinIO`,
-  },
-  {
-    value: `formCustom`,
-    label: `自定义代码`,
-  },
+  // {
+  //   value: `txCOS`,
+  //   label: `腾讯云`,
+  // },
+  // {
+  //   value: `qiniu`,
+  //   label: `七牛云`,
+  // },
+  // {
+  //   value: `minio`,
+  //   label: `MinIO`,
+  // },
+  // {
+  //   value: `formCustom`,
+  //   label: `自定义代码`,
+  // },
 ]
 
 const imgHost = ref(`default`)
@@ -139,24 +139,24 @@ watch(
 )
 
 onBeforeMount(() => {
-  if (localStorage.getItem(`githubConfig`)) {
-    formGitHub.value = JSON.parse(localStorage.getItem(`githubConfig`)!)
-  }
+  // if (localStorage.getItem(`githubConfig`)) {
+  //   formGitHub.value = JSON.parse(localStorage.getItem(`githubConfig`)!)
+  // }
   // if (localStorage.getItem(`giteeConfig`)) {
   //   formGitee.value = JSON.parse(localStorage.getItem(`giteeConfig`)!)
   // }
   if (localStorage.getItem(`aliOSSConfig`)) {
     formAliOSS.value = JSON.parse(localStorage.getItem(`aliOSSConfig`)!)
   }
-  if (localStorage.getItem(`txCOSConfig`)) {
-    formTxCOS.value = JSON.parse(localStorage.getItem(`txCOSConfig`)!)
-  }
-  if (localStorage.getItem(`qiniuConfig`)) {
-    formQiniu.value = JSON.parse(localStorage.getItem(`qiniuConfig`)!)
-  }
-  if (localStorage.getItem(`minioConfig`)) {
-    minioOSS.value = JSON.parse(localStorage.getItem(`minioConfig`)!)
-  }
+  // if (localStorage.getItem(`txCOSConfig`)) {
+  //   formTxCOS.value = JSON.parse(localStorage.getItem(`txCOSConfig`)!)
+  // }
+  // if (localStorage.getItem(`qiniuConfig`)) {
+  //   formQiniu.value = JSON.parse(localStorage.getItem(`qiniuConfig`)!)
+  // }
+  // if (localStorage.getItem(`minioConfig`)) {
+  //   minioOSS.value = JSON.parse(localStorage.getItem(`minioConfig`)!)
+  // }
   if (localStorage.getItem(`imgHost`)) {
     imgHost.value = localStorage.getItem(`imgHost`)!
   }
@@ -167,16 +167,16 @@ function changeImgHost() {
   ElMessage.success(`已成功切换图床`)
 }
 
-function saveGitHubConfiguration() {
-  if (!(formGitHub.value.repo && formGitHub.value.accessToken)) {
-    const blankElement = formGitHub.value.repo ? `token` : `GitHub 仓库`
-    ElMessage.error(`参数「${blankElement}」不能为空`)
-    return
-  }
+// function saveGitHubConfiguration() {
+//   if (!(formGitHub.value.repo && formGitHub.value.accessToken)) {
+//     const blankElement = formGitHub.value.repo ? `token` : `GitHub 仓库`
+//     ElMessage.error(`参数「${blankElement}」不能为空`)
+//     return
+//   }
 
-  localStorage.setItem(`githubConfig`, JSON.stringify(formGitHub.value))
-  ElMessage.success(`保存成功`)
-}
+//   localStorage.setItem(`githubConfig`, JSON.stringify(formGitHub.value))
+//   ElMessage.success(`保存成功`)
+// }
 
 // const saveGiteeConfiguration = () => {
 //   if (!(formGitee.value.repo && formGitee.value.accessToken)) {
@@ -203,51 +203,51 @@ function saveAliOSSConfiguration() {
   localStorage.setItem(`aliOSSConfig`, JSON.stringify(formAliOSS.value))
   ElMessage.success(`保存成功`)
 }
-function saveMinioOSSConfiguration() {
-  if (
-    !(
-      minioOSS.value.endpoint
-      && minioOSS.value.bucket
-      && minioOSS.value.accessKey
-      && minioOSS.value.secretKey
-    )
-  ) {
-    ElMessage.error(`MinIO 参数配置不全`)
-    return
-  }
-  localStorage.setItem(`minioConfig`, JSON.stringify(minioOSS.value))
-  ElMessage.success(`保存成功`)
-}
-function saveTxCOSConfiguration() {
-  if (
-    !(
-      formTxCOS.value.secretId
-      && formTxCOS.value.secretKey
-      && formTxCOS.value.bucket
-      && formTxCOS.value.region
-    )
-  ) {
-    ElMessage.error(`腾讯云 COS 参数配置不全`)
-    return
-  }
-  localStorage.setItem(`txCOSConfig`, JSON.stringify(formTxCOS.value))
-  ElMessage.success(`保存成功`)
-}
-function saveQiniuConfiguration() {
-  if (
-    !(
-      formQiniu.value.accessKey
-      && formQiniu.value.secretKey
-      && formQiniu.value.bucket
-      && formQiniu.value.domain
-    )
-  ) {
-    ElMessage.error(`七牛云 Kodo 参数配置不全`)
-    return
-  }
-  localStorage.setItem(`qiniuConfig`, JSON.stringify(formQiniu.value))
-  ElMessage.success(`保存成功`)
-}
+// function saveMinioOSSConfiguration() {
+//   if (
+//     !(
+//       minioOSS.value.endpoint
+//       && minioOSS.value.bucket
+//       && minioOSS.value.accessKey
+//       && minioOSS.value.secretKey
+//     )
+//   ) {
+//     ElMessage.error(`MinIO 参数配置不全`)
+//     return
+//   }
+//   localStorage.setItem(`minioConfig`, JSON.stringify(minioOSS.value))
+//   ElMessage.success(`保存成功`)
+// }
+// function saveTxCOSConfiguration() {
+//   if (
+//     !(
+//       formTxCOS.value.secretId
+//       && formTxCOS.value.secretKey
+//       && formTxCOS.value.bucket
+//       && formTxCOS.value.region
+//     )
+//   ) {
+//     ElMessage.error(`腾讯云 COS 参数配置不全`)
+//     return
+//   }
+//   localStorage.setItem(`txCOSConfig`, JSON.stringify(formTxCOS.value))
+//   ElMessage.success(`保存成功`)
+// }
+// function saveQiniuConfiguration() {
+//   if (
+//     !(
+//       formQiniu.value.accessKey
+//       && formQiniu.value.secretKey
+//       && formQiniu.value.bucket
+//       && formQiniu.value.domain
+//     )
+//   ) {
+//     ElMessage.error(`七牛云 Kodo 参数配置不全`)
+//     return
+//   }
+//   localStorage.setItem(`qiniuConfig`, JSON.stringify(formQiniu.value))
+//   ElMessage.success(`保存成功`)
+// }
 
 function formCustomSave() {
   const str = formCustom.value.editor!.getValue()
@@ -362,7 +362,7 @@ function uploadImage(params: { file: any }) {
             </el-form-item>
           </el-form>
         </el-tab-pane> -->
-        <el-tab-pane class="github-panel" label="GitHub 图床" name="github">
+        <!-- <el-tab-pane class="github-panel" label="GitHub 图床" name="github">
           <el-form
             class="setting-form"
             :model="formGitHub"
@@ -401,7 +401,7 @@ function uploadImage(params: { file: any }) {
               </el-button>
             </el-form-item>
           </el-form>
-        </el-tab-pane>
+        </el-tab-pane> -->
         <el-tab-pane class="github-panel" label="阿里云 OSS" name="aliOSS">
           <el-form
             class="setting-form"
@@ -464,7 +464,7 @@ function uploadImage(params: { file: any }) {
             </el-form-item>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane class="github-panel" label="腾讯云 COS" name="txCOS">
+        <!-- <el-tab-pane class="github-panel" label="腾讯云 COS" name="txCOS">
           <el-form
             class="setting-form"
             :model="formTxCOS"
@@ -613,7 +613,7 @@ function uploadImage(params: { file: any }) {
               </el-button>
             </el-form-item>
           </el-form>
-        </el-tab-pane>
+        </el-tab-pane> -->
         <el-tab-pane class="github-panel formCustom" label="自定义代码" name="formCustom">
           <el-form class="setting-form" :model="formCustom" label-position="right">
             <el-form-item label="" :required="true">
