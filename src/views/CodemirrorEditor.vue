@@ -202,7 +202,7 @@ function toggleHeading(editor: any, level: number) {
   if (selection) {
     // 处理选中的文本
     const lines = selection.split(`\n`)
-    const processedLines = lines.map((line) => {
+    const processedLines = lines.map((line: string) => {
       // 跳过空行
       if (!line.trim()) {
         return line
@@ -306,7 +306,7 @@ function initEditor() {
           else {
             // 如果没有引用符号，添加它
             // 保持原有缩进
-            const indentation = lineContent.match(/^\s*/)[0]
+            const indentation = lineContent.match(/^\s*/)?.[0]
             const newLine = `${indentation}> ${lineContent.trimStart()}`
             editor.replaceRange(
               newLine,
@@ -366,7 +366,7 @@ function initEditor() {
           else {
             // 如果没有列表符号，添加它
             // 保持原有缩进
-            const indentation = lineContent.match(/^\s*/)[0]
+            const indentation = lineContent.match(/^\s*/)?.[0]
             const newLine = `${indentation}- ${lineContent.trimStart()}`
             editor.replaceRange(
               newLine,
@@ -408,7 +408,7 @@ function initEditor() {
           else {
             // 如果没有序号，添加它
             // 保持原有缩进
-            const indentation = lineContent.match(/^\s*/)[0]
+            const indentation = lineContent.match(/^\s*/)?.[0]
             const newLine = `${indentation}1. ${lineContent.trimStart()}`
             editor.replaceRange(
               newLine,
