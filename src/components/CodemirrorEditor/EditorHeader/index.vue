@@ -108,6 +108,11 @@ const formatItems = [
     kbd: [ctrlSign, `6`],
     emitArgs: [`addFormat`, `${ctrlKey}-6`],
   },
+  {
+    label: `引用`,
+    kbd: [ctrlSign, `.`],
+    emitArgs: [`addFormat`, `${ctrlKey}-.`],
+  },
 ] as const
 
 const store = useStore()
