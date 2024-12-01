@@ -118,6 +118,11 @@ const formatItems = [
     kbd: [ctrlSign, `U`],
     emitArgs: [`addFormat`, `${ctrlKey}-U`],
   },
+  {
+    label: `有序列表`,
+    kbd: [ctrlSign, `O`],
+    emitArgs: [`addFormat`, `${ctrlKey}-O`],
+  },
 ] as const
 
 const store = useStore()
