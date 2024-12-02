@@ -174,7 +174,7 @@ function copy() {
 
       clipboardDiv.focus()
 
-      console.log(clipboardDiv.innerHTML)
+      console.log(`clipboardDiv`, clipboardDiv.innerHTML)
 
       // edge case: 由于 svg 无法复制， 在前面插入一个空节点
       const p = document.createElement(`p`)
