@@ -161,14 +161,14 @@ export function initRenderer(opts: IOpts) {
 
     blockquote({ tokens }: Tokens.Blockquote): string {
       let text = this.parser.parse(tokens)
-
-      const regex = /<p ([^>]*)>([^<>：:]+)[：:]([^<]*)<\/p>/g
+      // 匹配 <p> 标签内的内容，支持 <br/>、<code> 和 <strong> 标签
+      const regex = /<p ([^>]*)>([^<>：:]+)[：:]((?:[^<]|<br\/>|<code[^>]*>[^<]*<\/code>|<strong[^>]*>[^<]*<\/strong>)+)<\/p>/g
 
       text = text.replace(
         regex,
         (_, _attrs, name, content) => {
           const trimmedName = name.trim()
-          const isSpecialName = [`吴小宝`, `戴帽子`, `广告新生`].includes(trimmedName)
+          const isSpecialName = /^(?:吴小宝|小宝|戴帽子|帽子|广告新生(?:\s*\(.*\))?)$/.test(trimmedName)
           const nameClass = isSpecialName ? `blockquote_name` : `blockquote_name_others`
           const contentSpan = isSpecialName
             ? `<span ${styles(`blockquote_content`)}>${content}</span>`

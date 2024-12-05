@@ -267,24 +267,35 @@ function initEditor() {
         })
       },
       [`${ctrlKey}-B`]: function bold(editor) {
-        const selected = editor.getSelection()
-        editor.replaceSelection(`**${selected}**`)
+        toggleFormat(editor, {
+          start: `**`,
+          test: /^\*\*(.*)\*\*$/,
+        })
       },
       [`${ctrlKey}-I`]: function italic(editor) {
-        const selected = editor.getSelection()
-        editor.replaceSelection(`*${selected}*`)
+        toggleFormat(editor, {
+          start: `*`,
+          test: /^\*(.*)\*$/,
+        })
       },
       [`${ctrlKey}-D`]: function del(editor) {
-        const selected = editor.getSelection()
-        editor.replaceSelection(`~~${selected}~~`)
+        toggleFormat(editor, {
+          start: `~~`,
+          test: /^~~(.*)~~$/,
+        })
       },
-      [`${ctrlKey}-K`]: function italic(editor) {
-        const selected = editor.getSelection()
-        editor.replaceSelection(`[${selected}]()`)
+      [`${ctrlKey}-K`]: function link(editor) {
+        toggleFormat(editor, {
+          start: `[`,
+          end: `]()`,
+          test: /^\[(.*)\]\(.*\)$/,
+        })
       },
       [`${ctrlKey}-E`]: function code(editor) {
-        const selected = editor.getSelection()
-        editor.replaceSelection(`\`${selected}\``)
+        toggleFormat(editor, {
+          start: `\``,
+          test: /^`(.*)`$/,
+        })
       },
       [`${ctrlKey}-.`]: function quote(editor) {
         const selected = editor.getSelection()
@@ -440,6 +451,21 @@ function initEditor() {
 
         editor.replaceSelection(listedText)
       },
+      [`${shiftKey}-Enter`]: function insertLineBreak(editor) {
+        const cursor = editor.getCursor()
+        const line = editor.getLine(cursor.line)
+        const beforeCursor = line.slice(0, cursor.ch)
+        const afterCursor = line.slice(cursor.ch)
+
+        // 在光标位置插入 <br/> 标签，并将后面的内容移到新行
+        editor.replaceRange(
+          `${beforeCursor}<br/>\n${afterCursor}`,
+          { line: cursor.line, ch: 0 },
+          { line: cursor.line, ch: line.length },
+        )
+        // 将光标移动到新行的开始
+        editor.setCursor({ line: cursor.line + 1, ch: 0 })
+      },
     },
   })
 
@@ -584,6 +610,74 @@ onMounted(() => {
   onEditorRefresh()
   mdLocalToRemote()
 })
+
+// 添加工具函数来处理文本格式的切换
+function toggleFormat(editor: any, format: {
+  start: string
+  end?: string
+  test: RegExp
+}) {
+  const selected = editor.getSelection()
+  const { start, end = start, test } = format
+
+  if (!selected) {
+    // 获取光标所在单词
+    const cursor = editor.getCursor()
+    const word = editor.findWordAt(cursor)
+    const text = editor.getRange(word.anchor, word.head)
+
+    let newText: string
+    if (test.test(text)) {
+      // 如果已经有格式，则移除
+      newText = text.replace(test, `$1`)
+    }
+    else {
+      // 如果没有格式，则添加
+      newText = `${start}${text}${end}`
+    }
+
+    editor.replaceRange(newText, word.anchor, word.head)
+    // 选中新文本
+    editor.setSelection(word.anchor, {
+      line: word.head.line,
+      ch: word.anchor.ch + newText.length,
+    })
+    return
+  }
+
+  let newText: string
+  if (test.test(selected)) {
+    // 如果已经有格式，则移除
+    newText = selected.replace(test, `$1`)
+  }
+  else {
+    // 如果没有格式，则添加
+    newText = `${start}${selected}${end}`
+  }
+
+  // 获取选中文本的起始和结束位置
+  const selections = editor.listSelections()[0]
+  const from = selections.anchor
+  const to = selections.head
+
+  editor.replaceSelection(newText)
+
+  // 根据选中方向调整选区
+  if (from.line > to.line || (from.line === to.line && from.ch > to.ch)) {
+    // 如果是从下往上或从右往左选中
+    editor.setSelection(
+      { line: to.line, ch: to.ch },
+      { line: from.line, ch: from.ch + (newText.length - selected.length) },
+    )
+  }
+  else {
+    // 如果是从上往下或从左往右选中
+    editor.setSelection(
+      from,
+      { line: to.line, ch: to.ch + (newText.length - selected.length) },
+    )
+  }
+}
 </script>
 
 <template>

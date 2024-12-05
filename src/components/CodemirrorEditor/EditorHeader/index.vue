@@ -171,7 +171,8 @@ function copy() {
         .replaceAll(`var(--blockquote-background)`, `#f7f7f7`)
         .replaceAll(`var(--md-primary-color)`, primaryColor.value)
         .replaceAll(/--md-primary-color:.+?;/g, ``)
-
+        // 将 blockquote 标签 转为 section，保留 style 之类的属性
+        .replaceAll(/<blockquote([^>]*)>([\s\S]*?)<\/blockquote>/g, `<section$1>$2</section>`)
       clipboardDiv.focus()
 
       console.log(`clipboardDiv`, clipboardDiv.innerHTML)
