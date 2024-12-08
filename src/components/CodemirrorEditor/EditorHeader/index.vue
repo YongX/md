@@ -69,7 +69,7 @@ const formatItems = [
     emitArgs: [`addFormat`, `${ctrlKey}-K`],
   },
   {
-    label: `行内代码`,
+    label: `普通加粗`,
     kbd: [ctrlSign, `E`],
     emitArgs: [`addFormat`, `${ctrlKey}-E`],
   },

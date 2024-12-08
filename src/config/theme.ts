@@ -67,7 +67,7 @@ const defaultTheme: Theme = {
 
     // 段落
     p: {
-      'margin': `1.5em 8px`,
+      'margin': `1.5em 0`,
       'letter-spacing': `0.1em`,
       'color': `var(--el-text-color-regular)`,
       'text-align': `justify`,
@@ -85,7 +85,7 @@ const defaultTheme: Theme = {
       'background-size': `18px`,
       'background-repeat': `no-repeat`,
       'background-position': `6px 6px`,
-      'margin': `2em 8px`,
+      'margin': `2em 0`,
     },
 
     // 引用内容
@@ -173,7 +173,7 @@ const defaultTheme: Theme = {
       'border-radius': `8px`,
       'padding': `1em`,
       'line-height': `1.5`,
-      'margin': `10px 8px`,
+      'margin': `10px 0`,
     },
 
     // 行内代码
@@ -207,13 +207,13 @@ const defaultTheme: Theme = {
     },
 
     footnotes: {
-      'margin': `0.5em 8px`,
+      'margin': `0.5em 0`,
       'font-size': `80%`,
       'color': `var(--el-text-color-regular)`,
     },
 
     figure: {
-      margin: `1.5em 8px`,
+      margin: `1.5em 0`,
       color: `var(--el-text-color-regular)`,
     },
 
@@ -232,7 +232,7 @@ const defaultTheme: Theme = {
       // 'text-indent': `-1em`,
       display: `flex`,
       // 'align-items': `center`,
-      margin: `0.2em 8px`,
+      margin: `0.2em 0`,
       color: `var(--el-text-color-regular)`,
     },
 
@@ -267,7 +267,7 @@ const defaultTheme: Theme = {
     table: {
       'border-collapse': `collapse`,
       'text-align': `center`,
-      'margin': `1em 8px`,
+      'margin': `1em 0`,
       'color': `var(--el-text-color-regular)`,
     },
 
@@ -397,7 +397,7 @@ const graceTheme = toMerged(defaultTheme, {
   },
   inline: {
     listitem: {
-      margin: `0.5em 8px`,
+      margin: `0.5em 0`,
     },
 
     codespan: {
@@ -419,7 +419,7 @@ const graceTheme = toMerged(defaultTheme, {
       'border-collapse': `separate`,
       'border-spacing': `0`,
       'border-radius': `8px`,
-      'margin': `1em 8px`,
+      'margin': `1em 0`,
       'color': `var(--el-text-color-regular)`,
       'box-shadow': `0 4px 6px rgba(0,0,0,0.1)`,
       'overflow': `hidden`,
