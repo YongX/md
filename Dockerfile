@@ -13,7 +13,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 # 然后再复制其他源代码
 COPY . .
-RUN pnpm run build
+RUN pnpm run build:only
 
 FROM nginx:alpine AS runner
 WORKDIR /usr/share/nginx/html
